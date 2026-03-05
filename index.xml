@@ -1,0 +1,167 @@
+<html lang="zh-CN">
+ <head> 
+  <meta charset="UTF-8"> 
+  <title> 玖玖直装 </title> 
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  user-select: none;
+}
+
+/* 灵动岛主体 */
+.island {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88px;
+  height: 34px;
+  background: #111;
+  border-radius: 17px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: move;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* 展开变大 */
+.island.active {
+  width: 290px;
+  height: 260px;
+  border-radius: 20px;
+  padding: 15px;
+  display: block;
+}
+
+/* 收起时隐藏内容 */
+.island:not(.active) .body {
+  display: none;
+}
+
+/* 标题 */
+.title {
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* 内容 */
+.body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/* 选项 */
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 12px;
+  background: #1c1c1e;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+/* 开关 */
+.switch {
+  width: 35px;
+  height: 19px;
+  background: #3a3a3c;
+  border-radius: 10px;
+  position: relative;
+}
+.switch::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: 0.2s;
+}
+.switch.on {
+  background: #30d158;
+}
+.switch.on::after {
+  left: 18px;
+}
+
+/* 按钮 */
+.btn {
+  margin-top: auto;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  background: #30d158;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+}
+</style> 
+  <script src="js/jq.js"></script> 
+ </head> 
+ <body id="v1"> 
+  <div class="island" id="island"> 
+   <div id="v2" class="title">
+     科技ui 
+   </div> 
+   <div id="v3" class="body"> 
+    <div id="v4" class="item"> 
+     <span id="v5">自瞄</span> 
+     <div id="v6" class="switch on"></div> 
+    </div> 
+    <div id="v7" class="item"> 
+     <span id="v8">防检测</span> 
+     <div id="v9" class="switch on"></div> 
+    </div> 
+    <div id="v10" class="item"> 
+     <span id="v11">高跳</span> 
+     <div id="v12" class="switch"></div> 
+    </div> 
+    <div id="v13" class="item"> 
+     <span id="v14">加速</span> 
+     <div id="v15" class="switch on"></div> 
+    </div> 
+    <button id="v16" class="btn">启动安全服务</button> 
+   </div> 
+  </div> 
+  <script>
+const island = document.getElementById('island');
+let open = false;
+
+// 点击放大/缩小
+island.onclick = () => {
+  open = !open;
+  island.classList.toggle('active', open);
+};
+
+// 可拖动
+let x, y, l, t;
+island.onmousedown = (e) => {
+  x = e.clientX;
+  y = e.clientY;
+  l = island.offsetLeft;
+  t = island.offsetTop;
+  document.onmousemove = move;
+  document.onmouseup = () => document.onmousemove = null;
+};
+function move(e) {
+  island.style.left = l + e.clientX - x + 'px';
+  island.style.top = t + e.clientY - y + 'px';
+}
+</script>  
+ </body>
+</html>
