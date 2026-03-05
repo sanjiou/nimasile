@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可以成为我的恋人吗？</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            background: #fcdce3;
+            min-height: 100vh;
+            /* 整体居中核心布局 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* 元素间距 */
+            gap: 40px;
+        }
+        .title {
+            font-size: 24px;
+            color: #6b3e50;
+            font-weight: 500;
+            text-align: center;
+        }
+        .btns {
+            /* 按钮容器居中，固定间距 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+            /* 限制按钮区域范围，防止跑太远 */
+            max-width: 300px;
+        }
+        button {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            color: #fff;
+            cursor: pointer;
+            /* 按钮点击反馈 */
+            transition: transform 0.1s;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        #yes {
+            background: #e07a8a;
+        }
+        #no {
+            background: #6a8cb6;
+            /* 仅相对定位，保证初始不重叠 */
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">可以成为我的恋人吗？</div>
+    <div class="btns">
+        <button id="yes">可以</button>
+        <button id="no">不要</button>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yes');
+        const noBtn = document.getElementById('no');
+        const btnContainer = document.querySelector('.btns');
+        // 容器尺寸，限制逃跑范围
+        const containerRect = btnContainer.getBoundingClientRect();
+
+        // 点“不要”触发逃跑逻辑
+        noBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            runAway();
+        });
+
+        // 逃跑核心函数：基于容器范围随机移动，避免跑出屏幕
+        function runAway() {
+            // 随机X轴偏移：-150 到 150px
+            const randomX = Math.random() * 300 - 150;
+            // 随机Y轴偏移：-120 到 120px
+            const randomY = Math.random() * 240 - 120;
+            // 随机旋转：-30 到 30度（避免旋转过度）
+            const randomRotate = Math.random() * 60 - 30;
+
+            // 应用变换，保持相对定位，不重叠其他元素
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
+        }
+
+        // 点“可以”触发表白成功
+        yesBtn.addEventListener('click', function() {
+            document.body.innerHTML = `
+                <div style="
+                    text-align: center;
+                    color: #e07a8a;
+                    font-size: 28px;
+                    font-weight: bold;
+                    padding: 0 20px;
+                ">
+                    嘿嘿～我们是恋人啦 ❤️
+                </div>
+            `;
+        });
+
+        // WebCat 浮窗权限申请（必备）
+        window.onload = function() {
+            try {
+                webcat.requestOverlayPermission();
+            } catch(e) {
+                // 非WebCat环境不报错
+                console.log('非WebCat环境，跳过浮窗权限申请');
+            }
+        };
+    </script>
+</body>
+</html>
